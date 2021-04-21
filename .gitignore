@@ -89,7 +89,7 @@ src/main/resources/templates/
 ### Java ###
 # Compiled class file
 *.class
-
+/src/test
 # Log file
 *.log
 
