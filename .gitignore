@@ -75,7 +75,6 @@ crashlytics-build.properties
 fabric.properties
 
 ### Intellij+iml Patch ###
-# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
 modules.xml
 .idea/misc.xml
@@ -107,7 +106,6 @@ src/main/resources/templates/
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 ### Maven ###
