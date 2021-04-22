@@ -306,7 +306,29 @@ definitions:
       last_name:
         type: string
         example: "Roberto"
-        description: Segundo nome do usuario criado
+        description: "Segundo nome do usuario criado"
+      roles:
+        type: array
+        items:
+          $ref: "#/definitions/Role"
+
+  Role:
+    type: "object"
+    description: "Define the attributes of roles"
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: "1"
+        description: "Id of role"
+      roleName:
+        type: string
+        example: "ADMIN_USER"
+        description: "name of role"
+      description:
+        type: string
+        example: "Roberto"
+        description: "Admin User"
 
   Address:
     type: "object"
