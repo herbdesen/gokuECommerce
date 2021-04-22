@@ -15,7 +15,7 @@ tags:
 schemes:
   - "http"
 paths:
-  /goku/users:
+  /users:
     post:
       tags:
         - "UserService"
@@ -38,7 +38,105 @@ paths:
         "500":
           description: "Internal error server"
 
-  /goku/address:
+    get:
+      tags:
+        - "UserService"
+      summary: "Get a user list"
+      description: "Get a user list"
+      operationId: "getUserList"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "The user list has been founded"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        "422":
+          description: "Invalid input user"
+        "500":
+          description: "Internal error server"
+
+  /users/{id}:
+    get:
+      tags:
+        - "UserService"
+      summary: "Get a user by id"
+      description: "Get a user by id"
+      operationId: "getUserById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "id user"
+          required: true
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: "The user has been founded"
+          schema:
+            $ref: "#/definitions/User"
+        "422":
+          description: "Invalid input user"
+        "500":
+          description: "Internal error server"
+    put:
+      tags:
+        - "UserService"
+      summary: "Update a user"
+      description: "Update a user"
+      operationId: "updateUser"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "id user"
+          required: true
+          type: integer
+          format: int64
+        - in: "body"
+          name: "body"
+          description: "user a ser atualizado"
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: "The user has been updated"
+        '422':
+          description: "Invalid id user"
+        '500':
+          description: "Internal error server"
+
+    delete:
+      tags:
+        - "UserService"
+      summary: "Delete a user"
+      description: "Delete a user"
+      operationId: "deleteUser"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "id user"
+          required: true
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: "The user has been deleted"
+        "422":
+          description: "Invalid id user"
+        "500":
+          description: "Internal error server"
+
+
+  /address:
     post:
       tags:
         - "AddressService"
@@ -81,7 +179,31 @@ paths:
         "500":
           description: "Internal error server"
 
-  /goku/address/{id}:
+  /address/{id}:
+    get:
+      tags:
+        - "AddressService"
+      summary: "Get a address by id"
+      description: "Get a address by id"
+      operationId: "getAddressById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "id do endereco"
+          required: true
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: "The address has been founded"
+          schema:
+            $ref: "#/definitions/Address"
+        "422":
+          description: "Invalid input address"
+        "500":
+          description: "Internal error server"
     put:
       tags:
         - "AddressService"
@@ -134,13 +256,13 @@ paths:
         "500":
           description: "Internal error server"
 
-  /goku/address/{cep}:
+  /address/cep/{cep}:
     get:
       tags:
         - "AddressService"
       summary: "Get a address"
       description: "Get a address"
-      operationId: "getAddress"
+      operationId: "getAddressByCep"
       produces:
         - "application/json"
       parameters:
@@ -185,8 +307,6 @@ definitions:
         type: string
         example: "Roberto"
         description: Segundo nome do usuario criado
-      address:
-        $ref: "#/definitions/Address"
 
   Address:
     type: "object"

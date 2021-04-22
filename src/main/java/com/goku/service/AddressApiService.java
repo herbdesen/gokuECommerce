@@ -11,7 +11,9 @@ public interface AddressApiService {
 
     void deleteAddress(Long id);
 
-    AddressDTO getAddress(String cep);
+    AddressDTO getAddressByCep(String cep);
+
+    AddressDTO getAddressById(Long id);
 
     List<AddressDTO> getAddressList();
 }

@@ -1,10 +1,8 @@
 package com.goku.api;
 
 import com.goku.api.model.AddressDTO;
-import com.goku.api.model.UserDTO;
 import com.goku.service.AddressApiService;
 import com.goku.service.UsersApiService;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,25 +14,14 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class GokuApiController implements GokuApi {
+public class AddressApiController implements AddressApi {
 
     private final UsersApiService usersApiService;
     private final AddressApiService addressApiService;
 
-    public GokuApiController(UsersApiService usersApiService, AddressApiService addressApiService) {
+    public AddressApiController(UsersApiService usersApiService, AddressApiService addressApiService) {
         this.usersApiService = usersApiService;
         this.addressApiService = addressApiService;
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
-    @CacheEvict(value = "users", allEntries = true)
-    public ResponseEntity<Void> createUser(@Valid @RequestBody UserDTO body) {
-        UserDTO user = usersApiService.createUser(body);
-        if(user != null && user.getId() != null){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Override
@@ -63,8 +50,18 @@ public class GokuApiController implements GokuApi {
 
     @Override
     @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
-    public ResponseEntity<AddressDTO> getAddress(@PathVariable("cep") String cep) {
-        AddressDTO address = addressApiService.getAddress(cep);
+    public ResponseEntity<AddressDTO> getAddressByCep(@PathVariable("cep") String cep) {
+        AddressDTO address = addressApiService.getAddressByCep(cep);
+        if(address != null){
+            return new ResponseEntity<>(address, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    public ResponseEntity<AddressDTO> getAddressById(@PathVariable("id") Long id) {
+        AddressDTO address = addressApiService.getAddressById(id);
         if(address != null){
             return new ResponseEntity<>(address, HttpStatus.OK);
         }

@@ -45,8 +45,19 @@ public class AddressApiServiceImpl implements AddressApiService {
     }
 
     @Override
-    public AddressDTO getAddress(String cep) {
+    public AddressDTO getAddressByCep(String cep) {
         Address entity = addressRepository.findByCep(cep);
+        if(entity != null){
+            AddressDTO dto = new AddressDTO();
+            addressMapper.entityToDto(entity, dto);
+            return dto;
+        }
+        return null;
+    }
+
+    @Override
+    public AddressDTO getAddressById(Long id) {
+        Address entity = addressRepository.findById(id).orElse(null);
         if(entity != null){
             AddressDTO dto = new AddressDTO();
             addressMapper.entityToDto(entity, dto);
