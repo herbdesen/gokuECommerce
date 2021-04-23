@@ -5,6 +5,7 @@ import com.goku.api.model.UserDTO;
 import com.goku.domain.Role;
 import com.goku.domain.User;
 import com.goku.mapper.UserMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,22 +14,25 @@ import java.util.List;
 @Component
 public class UserMapperImpl implements UserMapper {
 
+    private final PasswordEncoder passwordEncoder;
+
+    public UserMapperImpl(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public User dtoToEntity(UserDTO dto, User entity) {
         if (dto == null || entity == null) {
             return null;
         }
         entity.setUsername(dto.getUsername());
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
 
-        List<Role> roleList = new ArrayList<>();
-        for(RoleDTO roleDto : dto.getRoles()){
-            Role role = new Role();
-            roleList.add(dtoToEntity(roleDto, role));
-        }
-        entity.setRoles(roleList);
+        Role role = new Role();
+        dtoToEntity(dto.getRoles(), role);
+        entity.setRoles(role);
 
         return entity;
     }
@@ -44,12 +48,9 @@ public class UserMapperImpl implements UserMapper {
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
 
-        List<RoleDTO> roleDtoList = new ArrayList<>();
-        for(Role role : entity.getRoles()){
-            RoleDTO roleDto = new RoleDTO();
-            roleDtoList.add(entityToDto(role, roleDto));
-        }
-        dto.setRoles(roleDtoList);
+        RoleDTO roleDto = new RoleDTO();
+        entityToDto(entity.getRoles(), roleDto);
+        dto.setRoles(roleDto);
 
         return dto;
     }
@@ -59,6 +60,7 @@ public class UserMapperImpl implements UserMapper {
         if (dto == null || entity == null) {
             return null;
         }
+        entity.setId(dto.getId());
         entity.setRoleName(dto.getRoleName());
         entity.setDescription(dto.getDescription());
         return entity;

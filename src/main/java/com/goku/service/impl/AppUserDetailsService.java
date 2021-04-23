@@ -1,8 +1,7 @@
 package com.goku.service.impl;
 
-import com.goku.repository.UserRepository;
 import com.goku.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.goku.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,13 +12,14 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nydiarra on 06/05/17.
- */
 @Component
 public class AppUserDetailsService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    public AppUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -30,9 +30,11 @@ public class AppUserDetailsService implements UserDetailsService {
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-        });
+        authorities.add(new SimpleGrantedAuthority(user.getRoles().getRoleName()));
+
+//        user.getRoles().forEach(role -> {
+//            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+//        });
 
         UserDetails userDetails = new org.springframework.security.core.userdetails.
                 User(user.getUsername(), user.getPassword(), authorities);

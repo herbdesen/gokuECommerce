@@ -13,5 +13,7 @@ public interface UsersApiService {
 
     UserDTO getUserById(Long id);
 
+    UserDTO getUserByUsername(String username);
+
     List<UserDTO> getUserList();
 }

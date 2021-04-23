@@ -59,6 +59,16 @@ public class UsersApiController implements UsersApi {
 
     @Override
     @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable("username") String username) {
+        UserDTO user = usersApiService.getUserByUsername(username);
+        if(user != null){
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
     public ResponseEntity<List<UserDTO>> getUserList() {
         List<UserDTO> userList = usersApiService.getUserList();
         return new ResponseEntity<>(userList, HttpStatus.OK);

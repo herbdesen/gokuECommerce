@@ -24,13 +24,9 @@ public class UsersApiServiceImpl implements UsersApiService {
     @Override
     public UserDTO createUser(UserDTO body) {
         User user = new User();
-        user.setUsername(body.getUsername());
-        user.setPassword(body.getPassword());
-        user.setFirstName(body.getFirstName());
-        user.setLastName(body.getLastName());
-
-        User save = userRepository.save(user);
-        body.setId(save.getId());
+        userMapper.dtoToEntity(body, user);
+        userRepository.save(user);
+        userMapper.entityToDto(user, body);
         return body;
     }
 
@@ -51,6 +47,17 @@ public class UsersApiServiceImpl implements UsersApiService {
     @Override
     public UserDTO getUserById(Long id) {
         User entity = userRepository.findById(id).orElse(null);
+        if(entity != null){
+            UserDTO dto = new UserDTO();
+            userMapper.entityToDto(entity, dto);
+            return dto;
+        }
+        return null;
+    }
+
+    @Override
+    public UserDTO getUserByUsername(String username) {
+        User entity = userRepository.findByUsername(username);
         if(entity != null){
             UserDTO dto = new UserDTO();
             userMapper.entityToDto(entity, dto);

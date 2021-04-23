@@ -1,9 +1,9 @@
 package com.goku.service.impl;
 
-import com.goku.repository.RandomCityRepository;
-import com.goku.repository.UserRepository;
 import com.goku.domain.RandomCity;
 import com.goku.domain.User;
+import com.goku.repository.RandomCityRepository;
+import com.goku.repository.UserRepository;
 import com.goku.service.GenericService;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,6 @@ public class GenericServiceImpl implements GenericService {
 
     @Override
     public List<User> findAllUsers() {
-        System.out.println("aqui");
         return (List<User>)userRepository.findAll();
     }
 

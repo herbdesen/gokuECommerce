@@ -135,6 +135,30 @@ paths:
         "500":
           description: "Internal error server"
 
+  /users/username/{username}:
+    get:
+      tags:
+        - "UserService"
+      summary: "Get a user by username"
+      description: "Get a user by username"
+      operationId: "getUserByUsername"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "username"
+          in: "path"
+          description: "username user"
+          required: true
+          type: string
+      responses:
+        "200":
+          description: "The user has been founded"
+          schema:
+            $ref: "#/definitions/User"
+        "422":
+          description: "Invalid input user"
+        "500":
+          description: "Internal error server"
 
   /address:
     post:
@@ -308,9 +332,8 @@ definitions:
         example: "Roberto"
         description: "Segundo nome do usuario criado"
       roles:
-        type: array
-        items:
-          $ref: "#/definitions/Role"
+        type: object
+        $ref: "#/definitions/Role"
 
   Role:
     type: "object"

@@ -34,5 +34,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/actuator/**", "/api-docs/**").permitAll()
                 .antMatchers("/goku/**" ).authenticated();
+
+        http.headers().frameOptions().disable();
     }
 }
