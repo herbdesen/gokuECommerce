@@ -1,7 +1,7 @@
 package com.goku.service.impl;
 
 import com.goku.api.model.UserDTO;
-import com.goku.domain.User;
+import com.goku.entity.UserEntity;
 import com.goku.mapper.UserMapper;
 import com.goku.repository.UserRepository;
 import com.goku.service.UsersApiService;
@@ -23,16 +23,16 @@ public class UsersApiServiceImpl implements UsersApiService {
 
     @Override
     public UserDTO createUser(UserDTO body) {
-        User user = new User();
-        userMapper.dtoToEntity(body, user);
-        userRepository.save(user);
-        userMapper.entityToDto(user, body);
+        UserEntity userEntity = new UserEntity();
+        userMapper.dtoToEntity(body, userEntity);
+        userRepository.save(userEntity);
+        userMapper.entityToDto(userEntity, body);
         return body;
     }
 
     @Override
     public void updateUser(Long id, UserDTO dto) {
-        User entity = userRepository.findById(id).orElse(null);
+        UserEntity entity = userRepository.findById(id).orElse(null);
         if(entity != null){
             userMapper.dtoToEntity(dto, entity);
             userRepository.save(entity);
@@ -46,7 +46,7 @@ public class UsersApiServiceImpl implements UsersApiService {
 
     @Override
     public UserDTO getUserById(Long id) {
-        User entity = userRepository.findById(id).orElse(null);
+        UserEntity entity = userRepository.findById(id).orElse(null);
         if(entity != null){
             UserDTO dto = new UserDTO();
             userMapper.entityToDto(entity, dto);
@@ -57,7 +57,7 @@ public class UsersApiServiceImpl implements UsersApiService {
 
     @Override
     public UserDTO getUserByUsername(String username) {
-        User entity = userRepository.findByUsername(username);
+        UserEntity entity = userRepository.findByUsername(username);
         if(entity != null){
             UserDTO dto = new UserDTO();
             userMapper.entityToDto(entity, dto);
@@ -69,8 +69,8 @@ public class UsersApiServiceImpl implements UsersApiService {
     @Override
     public List<UserDTO> getUserList() {
         List<UserDTO> dtoList = new ArrayList<>();
-        Iterable<User> entityList = userRepository.findAll();
-        for (User entity : entityList) {
+        Iterable<UserEntity> entityList = userRepository.findAll();
+        for (UserEntity entity : entityList) {
             UserDTO dto = new UserDTO();
             userMapper.entityToDto(entity, dto);
             dtoList.add(dto);

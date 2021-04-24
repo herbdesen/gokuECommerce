@@ -1,10 +1,10 @@
 package com.goku.repository;
 
-import com.goku.domain.Address;
+import com.goku.entity.AddressEntity;
 import org.springframework.data.repository.CrudRepository;
 
-public interface AddressRepository extends CrudRepository<Address, Long> {
+public interface AddressRepository extends CrudRepository<AddressEntity, Long> {
 
-    Address findByCep(String cep);
+    AddressEntity findByCep(String cep);
 
 }

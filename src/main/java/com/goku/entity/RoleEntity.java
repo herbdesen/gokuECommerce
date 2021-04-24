@@ -1,15 +1,16 @@
-package com.goku.domain;
+package com.goku.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="app_role")
+@Table(name="TB_ROLE")
 @Getter
 @Setter
-public class Role {
+public class RoleEntity implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,4 +23,9 @@ public class Role {
 
     @Column(name="description")
     private String description;
+
+    @Override
+    public String getAuthority() {
+        return roleName;
+    }
 }

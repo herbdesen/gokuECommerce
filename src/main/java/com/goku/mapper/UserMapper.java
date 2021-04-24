@@ -2,8 +2,8 @@ package com.goku.mapper;
 
 import com.goku.api.model.RoleDTO;
 import com.goku.api.model.UserDTO;
-import com.goku.domain.Role;
-import com.goku.domain.User;
+import com.goku.entity.RoleEntity;
+import com.goku.entity.UserEntity;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -12,15 +12,15 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface UserMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    User dtoToEntity(UserDTO dto, User entity);
+    UserEntity dtoToEntity(UserDTO dto, UserEntity entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    UserDTO entityToDto(User entity, UserDTO dto);
+    UserDTO entityToDto(UserEntity entity, UserDTO dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Role dtoToEntity(RoleDTO dto, Role entity);
+    RoleEntity dtoToEntity(RoleDTO dto, RoleEntity entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    RoleDTO entityToDto(Role entity, RoleDTO dto);
+    RoleDTO entityToDto(RoleEntity entity, RoleDTO dto);
 
 }

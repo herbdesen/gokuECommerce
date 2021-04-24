@@ -1,17 +1,16 @@
-package com.goku.domain;
+package com.goku.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "TB_USER")
 @Getter
 @Setter
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +32,11 @@ public class User {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_role",
+            name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Role roles;
+    private RoleEntity roles;
 
 }
 

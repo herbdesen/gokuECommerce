@@ -4,9 +4,11 @@ info:
   version: "1.0.0"
   title: "Goku e-commerce service"
 
-host: "localhost:9001"
+host: "TBD"
 basePath: "/"
 tags:
+  - name: "AuthService"
+    description: "Communications with Goku e-commerce - Auth"
   - name: "UserService"
     description: "Communications with Goku e-commerce - User"
   - name: "AddressService"
@@ -15,6 +17,31 @@ tags:
 schemes:
   - "http"
 paths:
+  /auth:
+    post:
+      tags:
+        - "AuthService"
+      summary: "authenticates a user"
+      description: "authenticates a user"
+      operationId: "authUser"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "The user list has been founded"
+          schema:
+            $ref: '#/definitions/AuthResponse'
+        "422":
+          description: "Invalid input user"
+        "500":
+          description: "Internal error server"
+
   /users:
     post:
       tags:
@@ -390,6 +417,31 @@ definitions:
         type: string
         example: "Proximo do exemplo"
         description: complemento do endereco criado
+
+  AuthResponse:
+    type: "object"
+    description: "Define the attributes of response"
+    properties:
+      code:
+        type: string
+        example: "authenticated"
+      message:
+        type: string
+        example: "Autenticado com sucesso"
+      data:
+        type: object
+        $ref: "#/definitions/Auth"
+
+  Auth:
+    type: "object"
+    description: "Define the attributes of authresponse"
+    properties:
+      type:
+        type: string
+        example: "Bearer"
+      token:
+        type: string
+        example: "eyJhbGciOiJIUzI1NiJ9..."
 
 externalDocs:
   description: "Find out more about Swagger"

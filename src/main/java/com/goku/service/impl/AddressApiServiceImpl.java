@@ -1,7 +1,7 @@
 package com.goku.service.impl;
 
 import com.goku.api.model.AddressDTO;
-import com.goku.domain.Address;
+import com.goku.entity.AddressEntity;
 import com.goku.mapper.AddressMapper;
 import com.goku.repository.AddressRepository;
 import com.goku.service.AddressApiService;
@@ -23,7 +23,7 @@ public class AddressApiServiceImpl implements AddressApiService {
 
     @Override
     public AddressDTO createAddress(AddressDTO dto) {
-        Address entity = new Address();
+        AddressEntity entity = new AddressEntity();
         addressMapper.dtoToEntity(dto, entity);
         addressRepository.save(entity);
         addressMapper.entityToDto(entity, dto);
@@ -32,7 +32,7 @@ public class AddressApiServiceImpl implements AddressApiService {
 
     @Override
     public void updateAddress(Long id, AddressDTO dto) {
-        Address entity = addressRepository.findById(id).orElse(null);
+        AddressEntity entity = addressRepository.findById(id).orElse(null);
         if(entity != null){
             addressMapper.dtoToEntity(dto, entity);
             addressRepository.save(entity);
@@ -46,7 +46,7 @@ public class AddressApiServiceImpl implements AddressApiService {
 
     @Override
     public AddressDTO getAddressByCep(String cep) {
-        Address entity = addressRepository.findByCep(cep);
+        AddressEntity entity = addressRepository.findByCep(cep);
         if(entity != null){
             AddressDTO dto = new AddressDTO();
             addressMapper.entityToDto(entity, dto);
@@ -57,7 +57,7 @@ public class AddressApiServiceImpl implements AddressApiService {
 
     @Override
     public AddressDTO getAddressById(Long id) {
-        Address entity = addressRepository.findById(id).orElse(null);
+        AddressEntity entity = addressRepository.findById(id).orElse(null);
         if(entity != null){
             AddressDTO dto = new AddressDTO();
             addressMapper.entityToDto(entity, dto);
@@ -69,8 +69,8 @@ public class AddressApiServiceImpl implements AddressApiService {
     @Override
     public List<AddressDTO> getAddressList() {
         List<AddressDTO> dtoList = new ArrayList<>();
-        Iterable<Address> entityList = addressRepository.findAll();
-        for (Address entity : entityList) {
+        Iterable<AddressEntity> entityList = addressRepository.findAll();
+        for (AddressEntity entity : entityList) {
             AddressDTO dto = new AddressDTO();
             addressMapper.entityToDto(entity, dto);
             dtoList.add(dto);

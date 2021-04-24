@@ -1,7 +1,7 @@
 package com.goku.mapper;
 
 import com.goku.api.model.AddressDTO;
-import com.goku.domain.Address;
+import com.goku.entity.AddressEntity;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -10,8 +10,8 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface AddressMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Address dtoToEntity(AddressDTO dto, Address entity);
+    AddressEntity dtoToEntity(AddressDTO dto, AddressEntity entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    AddressDTO entityToDto(Address entity, AddressDTO dto);
+    AddressDTO entityToDto(AddressEntity entity, AddressDTO dto);
 }

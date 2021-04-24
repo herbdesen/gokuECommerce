@@ -3,9 +3,11 @@ package com.goku.api;
 import com.goku.api.model.AddressDTO;
 import com.goku.service.AddressApiService;
 import com.goku.service.UsersApiService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class AddressApiController implements AddressApi {
 
     private final UsersApiService usersApiService;
@@ -25,7 +28,7 @@ public class AddressApiController implements AddressApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    @CacheEvict(value = "address", allEntries = true)
     public ResponseEntity<Void> createAddress(@Valid @RequestBody AddressDTO body) {
         AddressDTO address = addressApiService.createAddress(body);
         if(address != null && address.getId() != null){
@@ -35,21 +38,21 @@ public class AddressApiController implements AddressApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    @CacheEvict(value = "address", allEntries = true)
     public ResponseEntity<Void> updateAddress(@PathVariable("id") Long id, @Valid @RequestBody AddressDTO body) {
         addressApiService.updateAddress(id, body);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    @CacheEvict(value = "address", allEntries = true)
     public ResponseEntity<Void> deleteAddress(@PathVariable("id") Long id) {
         addressApiService.deleteAddress(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    @Cacheable("address")
     public ResponseEntity<AddressDTO> getAddressByCep(@PathVariable("cep") String cep) {
         AddressDTO address = addressApiService.getAddressByCep(cep);
         if(address != null){
@@ -59,7 +62,7 @@ public class AddressApiController implements AddressApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    @Cacheable("address")
     public ResponseEntity<AddressDTO> getAddressById(@PathVariable("id") Long id) {
         AddressDTO address = addressApiService.getAddressById(id);
         if(address != null){
@@ -69,7 +72,7 @@ public class AddressApiController implements AddressApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    @Cacheable("address")
     public ResponseEntity<List<AddressDTO>> getAddressList() {
         List<AddressDTO> addressList = addressApiService.getAddressList();
         return new ResponseEntity<>(addressList, HttpStatus.OK);

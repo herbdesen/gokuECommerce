@@ -2,14 +2,11 @@ package com.goku.mapper.impl;
 
 import com.goku.api.model.RoleDTO;
 import com.goku.api.model.UserDTO;
-import com.goku.domain.Role;
-import com.goku.domain.User;
+import com.goku.entity.RoleEntity;
+import com.goku.entity.UserEntity;
 import com.goku.mapper.UserMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -21,7 +18,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public User dtoToEntity(UserDTO dto, User entity) {
+    public UserEntity dtoToEntity(UserDTO dto, UserEntity entity) {
         if (dto == null || entity == null) {
             return null;
         }
@@ -30,15 +27,15 @@ public class UserMapperImpl implements UserMapper {
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
 
-        Role role = new Role();
-        dtoToEntity(dto.getRoles(), role);
-        entity.setRoles(role);
+        RoleEntity roleEntity = new RoleEntity();
+        dtoToEntity(dto.getRoles(), roleEntity);
+        entity.setRoles(roleEntity);
 
         return entity;
     }
 
     @Override
-    public UserDTO entityToDto(User entity, UserDTO dto){
+    public UserDTO entityToDto(UserEntity entity, UserDTO dto){
         if (dto == null || entity == null) {
             return null;
         }
@@ -56,7 +53,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public Role dtoToEntity(RoleDTO dto, Role entity) {
+    public RoleEntity dtoToEntity(RoleDTO dto, RoleEntity entity) {
         if (dto == null || entity == null) {
             return null;
         }
@@ -67,7 +64,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public RoleDTO entityToDto(Role entity, RoleDTO dto) {
+    public RoleDTO entityToDto(RoleEntity entity, RoleDTO dto) {
         if (dto == null || entity == null) {
             return null;
         }

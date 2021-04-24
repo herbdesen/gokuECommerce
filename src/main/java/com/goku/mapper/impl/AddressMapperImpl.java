@@ -1,7 +1,7 @@
 package com.goku.mapper.impl;
 
 import com.goku.api.model.AddressDTO;
-import com.goku.domain.Address;
+import com.goku.entity.AddressEntity;
 import com.goku.mapper.AddressMapper;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class AddressMapperImpl implements AddressMapper {
 
     @Override
-    public Address dtoToEntity(AddressDTO dto, Address entity) {
+    public AddressEntity dtoToEntity(AddressDTO dto, AddressEntity entity) {
         if (dto == null || entity == null) {
             return null;
         }
@@ -24,7 +24,7 @@ public class AddressMapperImpl implements AddressMapper {
     }
 
     @Override
-    public AddressDTO entityToDto(Address entity, AddressDTO dto){
+    public AddressDTO entityToDto(AddressEntity entity, AddressDTO dto){
         if (dto == null || entity == null) {
             return null;
         }
